@@ -17,14 +17,13 @@ class HC_SR04(GPIO_Base):
 #   if verbose > 0: print "Waitng For Sensor To Settle"
 #   sleep(2.0)           # Delay 
     update(self.trig, 1)
-    sleep(0.0001)       # keep > 10 us of high
+    sleep(0.000015)       # keep > 10 us of high
     update(self.trig, 0)
   
-    while fetch(self.echo) == 0:
-      pulse_start = time() # record the start 
-    while fetch(self.echo) == 1:
-      pulse_end = time()   # record the end 
-    pulse_duration = pulse_end - pulse_start 
+    while fetch(self.echo) == 0: pass
+    pulse_start = time() 
+    while fetch(self.echo) == 1: pass
+    pulse_duration = time() - pulse_start 
   
     dis = pulse_duration * 17150   # time/2.0*340 M/s (the speed of sound forward and backward)
     dis = round(dis, 2)
