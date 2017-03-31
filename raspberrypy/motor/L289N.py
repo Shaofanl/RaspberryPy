@@ -1,4 +1,4 @@
-from ..utils.GPIO_utils import set_mode, setup_output, update, cleanup 
+from ..utils.GPIO_utils import setup_output, update, GPIO_Base
 from time import sleep
 import random
 
@@ -11,15 +11,14 @@ def keep_decorate(func):
       self.stop()
   return func_wrapper
 
-class L289N(object):
-  def __init__(self, mode='BOARD', pins=(35, 37, 38, 40), keep=1.0):
+class L289N(GPIO_Base):
+  def __init__(self, pins=(35, 37, 38, 40), keep=1.0, **kwargs):
     '''
       mode: the pin mode, 'BOARD' or 'BCM'.
       pins: pins for left forward, left backward, right forward, right backward.
       keep: the duration an action is kept, if keep <= 0 then the motor will not stop
     '''
-    self.mode = mode
-    set_mode(mode)
+    super(L289N, self).__init__(**kwargs)
 
     self.pins = pins
     for pin in pins: setup_output(pin)
@@ -58,7 +57,3 @@ class L289N(object):
   def spin_left(self, keep=None):
     self.right_forward(keep=-1)
     self.left_backward(keep=-1)
-
-  def __del__(self):
-    print 'cleaning up GPIO'
-    cleanup()

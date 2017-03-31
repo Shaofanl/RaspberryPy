@@ -21,12 +21,32 @@ def setup_output(pin):
 def setup_input(pin):
   GPIO.setup(pin, GPIO.IN)
 
+# input signal
+def fetch(pin):
+  return GPIO.input(pin)
+
 # output signal
 def low(pin):
   GPIO.output(pin, GPIO.LOW)
 def high(pin):
   GPIO.output(pin, GPIO.HIGH)
-def update(pins, outputs):
-  for pin, output in zip(pins, outputs):
+def update(pin, output):
+  if isinstance(pin, list): 
+    for p, o in zip(pin, output):
+      GPIO.output(p, o)
+  else:
     GPIO.output(pin, output)
+
+class GPIO_Base(object):
+  def __init__(self, mode='BOARD'):
+    if GPIO.getmode() is None:
+      print 'Setting GPIO mode to {}.'.format(mode)
+      self.mode = mode
+      set_mode(mode)
+    else:
+      print 'GPIO mode {} exists.'.format(GPIO.getmode())
+      
+  def __del__(self):
+    print 'Cleaning up GPIO.'
+    cleanup()
 
