@@ -1,30 +1,18 @@
+"""This program handles the communication over I2C
+between a Raspberry Pi and a MPU-6050 Gyroscope / Accelerometer combo.
+Made by: MrTijn/Tijndagamer
+Released under the MIT License
+Copyright (c) 2015, 2016, 2017 MrTijn/Tijndagamer
+"""
+
 import smbus
 
-class GY521(object):
-    '''
-        MPU6050(GY521)
-
-        install the I2C dev
-            sudo apt-get install libi2c-dev
-        install smbus
-            sudo apt-get isntall python-smbus
-        enable i2c
-            Old version:
-                sudo raspi-config
-                7 advanced options
-                A7 I2C  (if this options not exist, update your raspi-config first)
-                Enable 
-            New version:
-                sudo raspi-config 
-                5 Interfacing Options
-                P5 I2C
-                Enable
-        check which port the GY521 is on 
-            i2cdetect -y 1 # switch 1 to 0 if the 0x68 is not exist
-    '''
+class mpu6050:
 
     # Global Variables
     GRAVITIY_MS2 = 9.80665
+    address = None
+    bus = smbus.SMBus(1)
 
     # Scale Modifiers
     ACCEL_SCALE_MODIFIER_2G = 16384.0
@@ -65,10 +53,13 @@ class GY521(object):
     ACCEL_CONFIG = 0x1C
     GYRO_CONFIG = 0x1B
 
-    def __init__(self, address=0x68, bus=1):
+    def __init__(self, address):
         self.address = address
-        self.bus = smbus.SMBus(bus)
+
+        # Wake up the MPU-6050 since it starts in sleep mode
         self.bus.write_byte_data(self.address, self.PWR_MGMT_1, 0x00)
+
+    # I2C communication methods
 
     def read_i2c_word(self, register):
         """Read two i2c registers and combine them.
@@ -249,3 +240,15 @@ class GY521(object):
         gyro = self.get_gyro_data()
 
         return [accel, gyro, temp]
+
+if __name__ == "__main__":
+    mpu = MPU6050(0x68)
+    print(mpu.get_temp())
+    accel_data = mpu.get_accel_data()
+    print(accel_data['x'])
+    print(accel_data['y'])
+    print(accel_data['z'])
+    gyro_data = mpu.get_gyro_data()
+    print(gyro_data['x'])
+    print(gyro_data['y'])
+    print(gyro_data['z'])
