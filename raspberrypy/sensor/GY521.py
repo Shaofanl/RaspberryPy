@@ -21,6 +21,9 @@ class GY521(object):
                 Enable
         check which port the GY521 is on 
             i2cdetect -y 1 # switch 1 to 0 if the 0x68 is not exist
+
+        code modified from 
+            https://github.com/Tijndagamer/mpu6050/blob/master/mpu6050/mpu6050.py
     '''
 
     # Global Variables
