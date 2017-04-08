@@ -1,4 +1,4 @@
-from ..utils.GPIO_utils import setup_output, update, GPIO_Base
+from ..utils.GPIO_utils import setup_output, output, GPIO_Base
 from time import sleep
 import random
 
@@ -27,20 +27,20 @@ class L289N(GPIO_Base):
 
   # ============== actions ================
   def stop(self):
-    update(self.pins, [0,0,0,0])
+    output(self.pins, [0,0,0,0])
 
   @keep_decorate
   def left_backward(self, keep=None):
-    update(self.pins[:2], [0, 1])
+    output(self.pins[:2], [0, 1])
   @keep_decorate
   def left_forward(self, keep=None):
-    update(self.pins[:2], [1, 0])
+    output(self.pins[:2], [1, 0])
   @keep_decorate
   def right_backward(self, keep=None):
-    update(self.pins[-2:], [0, 1])
+    output(self.pins[-2:], [0, 1])
   @keep_decorate
   def right_forward(self, keep=None):
-    update(self.pins[-2:], [1, 0])
+    output(self.pins[-2:], [1, 0])
   @keep_decorate
   def forward(self, keep=None):
     self.right_forward(keep=-1)

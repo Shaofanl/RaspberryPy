@@ -1,5 +1,5 @@
 from ..utils.GPIO_utils import setup_input, setup_output, \
-                fetch, update, GPIO_Base
+                fetch, output, GPIO_Base
 from time import sleep, time
 
 class HC_SR04(GPIO_Base):
@@ -13,12 +13,12 @@ class HC_SR04(GPIO_Base):
     setup_input(echo)
   
   def get_dis(self, verbose=0):
-#   update(self.trig, 0) 
+#   output(self.trig, 0) 
 #   if verbose > 0: print "Waitng For Sensor To Settle"
 #   sleep(2.0)           # Delay 
-    update(self.trig, 1)
+    output(self.trig, 1)
     sleep(0.000015)       # keep > 10 us of high
-    update(self.trig, 0)
+    output(self.trig, 0)
   
     while fetch(self.echo) == 0: pass
     pulse_start = time() 

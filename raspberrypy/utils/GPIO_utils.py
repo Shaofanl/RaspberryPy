@@ -30,7 +30,7 @@ def low(pin):
   GPIO.output(pin, GPIO.LOW)
 def high(pin):
   GPIO.output(pin, GPIO.HIGH)
-def update(pin, output):
+def output(pin, output):
   if isinstance(pin, list): 
     for p, o in zip(pin, output):
       GPIO.output(p, o)
