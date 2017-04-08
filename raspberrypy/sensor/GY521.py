@@ -1,4 +1,5 @@
 import smbus
+from ..utils.math import Vec3
 
 class GY521(object):
     '''
@@ -172,12 +173,12 @@ class GY521(object):
         z = z / accel_scale_modifier
 
         if g is True:
-            return {'x': x, 'y': y, 'z': z}
+            return Vec3({'x': x, 'y': y, 'z': z})
         elif g is False:
             x = x * self.GRAVITIY_MS2
             y = y * self.GRAVITIY_MS2
             z = z * self.GRAVITIY_MS2
-            return {'x': x, 'y': y, 'z': z}
+            return Vec3({'x': x, 'y': y, 'z': z})
 
     def set_gyro_range(self, gyro_range):
         """Sets the range of the gyroscope to range.
@@ -243,7 +244,7 @@ class GY521(object):
         y = y / gyro_scale_modifier
         z = z / gyro_scale_modifier
 
-        return {'x': x, 'y': y, 'z': z}
+        return Vec3({'x': x, 'y': y, 'z': z})
 
     def get_all_data(self):
         """Reads and returns all the available data."""
@@ -251,4 +252,4 @@ class GY521(object):
         accel = self.get_accel_data()
         gyro = self.get_gyro_data()
 
-        return [accel, gyro, temp]
+        return {'temp':temp, 'accel':accel, 'gyro':gyro}
