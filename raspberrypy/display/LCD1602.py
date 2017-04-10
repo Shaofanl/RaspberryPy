@@ -20,12 +20,12 @@ class LCD1602A(GPIO_Base):
             since there is not enough pins on raspberry pi
     '''
 
-    T_DSW = 1e-4 # Data setup write (> 40 ns = 1e-8 s)
-    T_PW  = 1e-4 # Enable plus width (> 140 ns = 1.4e-7 ns)
-    T_R   = 1e-4 # Enable Rise Time (< 25 ns = 2.5e-8 ns)
-    T_F   = 1e-4 # Enable Fall Time (< 25 ns = 2.5e-8 ns)
-    T_C   = 1e-4 # Enable cycle (> 1200 ns = 1.2e-6 ns)
-    def __init__(self, RS=7, RW=11, EN=12, DB=[29, 31, 32, 33], **kwargs):
+    T_DSW = 1e-2 # Data setup write (> 40 ns = 1e-8 s)
+    T_PW  = 1e-2 # Enable plus width (> 140 ns = 1.4e-7 ns)
+    T_R   = 1e-2 # Enable Rise Time (< 25 ns = 2.5e-8 ns)
+    T_F   = 1e-2 # Enable Fall Time (< 25 ns = 2.5e-8 ns)
+    T_C   = 1e-2 # Enable cycle (> 1200 ns = 1.2e-6 ns)
+    def __init__(self, RS=7, RW=11, EN=12, DB=[29, 36, 32, 33], **kwargs):
         super(LCD1602A, self).__init__(**kwargs)
 
         self.RS = RS 
@@ -72,6 +72,11 @@ class LCD1602A(GPIO_Base):
         output(self.EN, 1)
         sleep(self.T_PW)
         output(self.EN, 0)
+        sleep(self.T_F)
+
+    def init(self):
+        self.output(0, 0, 0b00110011)
+        self.output(0, 0, 0b00110010)
 
     def function_set(self, DL=0, N=1, F=0):
         '''
@@ -129,17 +134,66 @@ class LCD1602A(GPIO_Base):
         '''
         pass
 
-    def write_msg(self, msg, line=0):
+    def set_line(self, line):
+        # one-line mode: 0x00~0x4F 
+        # two-line mode: 0x00~0x27 + 0x40~67H
+        if line == 0:
+            self.output(rs=0, rw=0, data=0b10000000)
+        elif line == 1:
+            self.output(rs=0, rw=0, data=0b11000000)
+
+
+    def write_msg(self, msg):
         msg = msg.ljust(16, " ")[:16]
         print "[",msg,"]"
 
         # LCD_LINE_0 = 0x80, 0b1000 0000
         # LCD_LINE_1 = 0xC0, 0b1101 0000
-
-        # one-line mode: 0x00~0x4F 
-        # two-line mode: 0x00~0x27 + 0x40~67H
-        self.output(rs=0, rw=0, data=0b10000000)#+(0x00 if line == 0 else 0x40))
         for char in msg:
             self.output(rs=1, rw=0, data=ord(char))
 
+
+    # deprecated operations
+#   def lcd_cmd(self, bits, char=False):
+#       import RPi.GPIO as GPIO
+#       import time as time
+#       if char: 
+#           bits=bin(ord(bits))
+#       else:
+#           bits=bin(bits)
+#       bits=bits[2:]
+#       zeros=(8-len(bits))*"0"
+#       bits=zeros+bits
+#       GPIO.output(self.RS, char) # RS low
+#       GPIO.output(self.DB[3], False)
+#       GPIO.output(self.DB[2], False)
+#       GPIO.output(self.DB[1], False)
+#       GPIO.output(self.DB[0], False)
+#       if bits[0]=="1" : GPIO.output(self.DB[3], True)
+#       if bits[1]=="1" : GPIO.output(self.DB[2], True)
+#       if bits[2]=="1" : GPIO.output(self.DB[1], True)
+#       if bits[3]=="1" : GPIO.output(self.DB[0], True)
+#       time.sleep(0.01)
+#       GPIO.output(self.EN, True) # E high
+#       time.sleep(0.01)
+#       GPIO.output(self.EN, False) # E low
+#       time.sleep(0.01)
+#       GPIO.output(self.DB[3], False)
+#       GPIO.output(self.DB[2], False)
+#       GPIO.output(self.DB[1], False)
+#       GPIO.output(self.DB[0], False)
+#       if bits[4]=="1" : GPIO.output(self.DB[3], True)
+#       if bits[5]=="1" : GPIO.output(self.DB[2], True)
+#       if bits[6]=="1" : GPIO.output(self.DB[1], True)
+#       if bits[7]=="1" : GPIO.output(self.DB[0], True)
+#       time.sleep(0.01)
+#       GPIO.output(self.EN, True) # E high
+#       time.sleep(0.01)
+#       GPIO.output(self.EN, False) # E low
+#       time.sleep(0.01)
+
+#   def lcd_string(self, message):
+#       msg_len = len(message)
+#       for i in range(msg_len):
+#           self.lcd_cmd(message[i], char=True)
 

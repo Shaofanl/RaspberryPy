@@ -47,6 +47,7 @@ class GPIO_Base(object):
       print 'GPIO mode {} exists.'.format(GPIO.getmode())
       
   def __del__(self):
-    print 'Cleaning up GPIO.'
-    cleanup()
+    pass
+    #print 'Cleaning up GPIO.'
+    #cleanup()
 
