@@ -25,7 +25,7 @@ class LCD1602A(GPIO_Base):
     T_R   = 1e-2 # Enable Rise Time (< 25 ns = 2.5e-8 ns)
     T_F   = 1e-2 # Enable Fall Time (< 25 ns = 2.5e-8 ns)
     T_C   = 1e-2 # Enable cycle (> 1200 ns = 1.2e-6 ns)
-    def __init__(self, RS=7, RW=11, EN=12, DB=[29, 36, 32, 33], **kwargs):
+    def __init__(self, RS=7, RW=11, EN=22, DB=[29, 36, 32, 33], **kwargs):
         super(LCD1602A, self).__init__(**kwargs)
 
         self.RS = RS 
