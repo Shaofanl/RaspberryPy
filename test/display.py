@@ -9,7 +9,9 @@ if __name__ == '__main__':
   lcd.entry_mode(I_D=1, S=0)
   lcd.clear()
   lcd.set_line(line=0)
-  lcd.write_msg("Hi")
+  lcd.printf("Hi")
+  lcd.set_line(line=1)
+  lcd.printf("Everyone")
   print 'done'
   
 # lcd.lcd_cmd(0x33) # $33 8-bit mode   

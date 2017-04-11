@@ -39,6 +39,9 @@ class LCD1602A(GPIO_Base):
         setup_output(EN)
         [setup_output(db) for db in DB if db is not None]
 
+    def set_interval(self, value):
+        self.T_DSW = self.T_PW = self.T_R = self.T_F = self.T_C = value
+
     # following operations is from https://www.openhacks.com/uploadsproductos/eone-1602a1.pdf
     def get_byte(self, *data):
         return  0b10000000*data[0]+\
@@ -141,16 +144,14 @@ class LCD1602A(GPIO_Base):
             self.output(rs=0, rw=0, data=0b10000000)
         elif line == 1:
             self.output(rs=0, rw=0, data=0b11000000)
+        else:
+            raise ValueError("line must be 0 or 1")
 
 
-    def write_msg(self, msg):
-        msg = msg.ljust(16, " ")[:16]
-        print "[",msg,"]"
-
-        # LCD_LINE_0 = 0x80, 0b1000 0000
-        # LCD_LINE_1 = 0xC0, 0b1101 0000
-        for char in msg:
-            self.output(rs=1, rw=0, data=ord(char))
+    def printf(self, msg):
+        msg = msg[:16]
+        print "printing [",msg,"]"
+        for char in msg: self.output(rs=1, rw=0, data=ord(char))
 
 
     # deprecated operations
