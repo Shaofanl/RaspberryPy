@@ -1,7 +1,10 @@
 # install Neopixel for raspberry pi 
 #   https://learn.adafruit.com/neopixels-on-raspberry-pi/software
 
-import neopixel
+try:
+  import neopixel
+except:
+  raise ImportError("Please install Neopixel first (https://learn.adafruit.com/neopixels-on-raspberry-pi/software")
 import time
 
 # ['Adafruit_NeoPixel', 
