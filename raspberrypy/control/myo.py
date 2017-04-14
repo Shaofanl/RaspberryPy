@@ -7,10 +7,7 @@
 # // permission to ttyACM0 - must restart linux user after this
 # sudo usermod -a -G dialout $USER
 # // dependencies
-# sudo apt-get install python-pip
-# sudo pip install pySerial --upgrade
-# sudo pip install enum34
-# sudo pip install PyUserInput
+# sudo pip install pySerial enum34
 
 from __future__ import print_function
 
