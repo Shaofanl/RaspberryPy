@@ -5,7 +5,7 @@
 # various animations on a strip of NeoPixels.
 import time
 
-from neopixel import Adafruit_NeoPixel, Color
+from raspberrypy.display.strip import Strip, Color
 
 
 # LED strip configuration:
@@ -79,10 +79,7 @@ def theaterChaseRainbow(strip, wait_ms=50):
 if __name__ == '__main__':
   # Create NeoPixel object with appropriate configuration.
   #strip = Adafruit_NeoPixel(LED_COUNT, LED_PIN, LED_FREQ_HZ, LED_DMA, LED_INVERT, LED_BRIGHTNESS)
-  from raspberrypy.display.strip import Strip 
   strip = Strip()
-  # Intialize the library (must be called once before other functions).
-  strip.begin()
 
   print ('Press Ctrl-C to quit.')
   while True:

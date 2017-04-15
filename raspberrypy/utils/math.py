@@ -32,3 +32,8 @@ class Vec3(object):
       return Vec3(v1.x/v2.x, v1.y/v2.y, v1.z/v2.z)
     elif isinstance(v2, int) or isinstance(v2, float) or isinstance(v2, long):
       return Vec3(v1.x/v2, v1.y/v2, v1.z/v2)    
+
+  def __iter__(self):
+    yield self.x
+    yield self.y
+    yield self.z

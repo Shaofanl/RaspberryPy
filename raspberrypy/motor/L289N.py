@@ -12,7 +12,7 @@ def keep_decorate(func):
   return func_wrapper
 
 class L289N(GPIO_Base):
-  def __init__(self, pins=(35, 37, 38, 40), keep=1.0, **kwargs):
+  def __init__(self, pins=(40,38,  37,35,), keep=1.0, **kwargs):
     '''
       mode: the pin mode, 'BOARD' or 'BCM'.
       pins: pins for left forward, left backward, right forward, right backward.

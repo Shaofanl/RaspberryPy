@@ -3,9 +3,11 @@
 
 try:
   import neopixel
+  from neopixel import Color
 except:
   raise ImportError("Please install Neopixel first (https://learn.adafruit.com/neopixels-on-raspberry-pi/software")
 import time
+import os
 
 # ['Adafruit_NeoPixel', 
 #  'Color', 
@@ -23,7 +25,16 @@ class Strip(neopixel.Adafruit_NeoPixel):
     LED_BRIGHTNESS = 255,     # Set to 0 for darkest and 255 for brightest
     ):
     super(Strip, self).__init__(LED_COUNT, LED_PIN, LED_FREQ_HZ, LED_DMA, LED_INVERT, LED_BRIGHTNESS)
+    if os.getuid() != 0:
+      raise Exception("Neopixel module should run with root permisson.")
     self.begin()
+
+  def setPattern(self, colors):
+    assert len(colors) == self.numPixels()
+
+    for i, c in enumerate(colors):
+      self.setPixelColor(i, c)
+      self.show()
 
 
   def pattern_wipe(self, color, wait_ms=50):
