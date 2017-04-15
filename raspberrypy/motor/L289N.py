@@ -8,7 +8,7 @@ def keep_decorate(func):
     if keep is None: keep = self.keep
     if keep > 0:
       sleep(keep)
-      self.stop()
+      self._stop()
   return func_wrapper
 
 class L289N(GPIO_Base):
@@ -26,7 +26,11 @@ class L289N(GPIO_Base):
     self.keep = keep
 
   # ============== actions ================
-  def stop(self):
+  def _stop(self, keep=None):
+    output(self.pins, [0,0,0,0])
+
+  @keep_decorate
+  def stop(self, keep=None):
     output(self.pins, [0,0,0,0])
 
   @keep_decorate

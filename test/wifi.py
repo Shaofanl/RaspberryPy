@@ -1,6 +1,6 @@
 import sys
 sys.path.insert(0, './')
-from raspberrypy.utils.wifi import Wifi
+from raspberrypy.network.wifi import Wifi
 from time import sleep
 
 if __name__ == '__main__':
