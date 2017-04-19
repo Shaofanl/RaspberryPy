@@ -11,6 +11,7 @@ Dependences
 - [Neopixel for Raspberry pi](https://learn.adafruit.com/neopixels-on-raspberry-pi/software) (Only required in display.Neopixel)
 - [Flask](http://flask.pocoo.org/) (Only required in application.motion\_monitor)
 - pySerial, enum34 (Only required in control.Myo)
+- netifaces (Required in `applications/ip_lcd.py`
 
 
 
