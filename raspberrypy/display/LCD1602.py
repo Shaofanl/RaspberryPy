@@ -149,7 +149,7 @@ class LCD1602A(GPIO_Base):
 
 
     def printf(self, msg):
-        msg = msg[:16]
+        msg = msg.ljust(16)[:16]
         print "printing [",msg,"]"
         for char in msg: self.output(rs=1, rw=0, data=ord(char))
 
