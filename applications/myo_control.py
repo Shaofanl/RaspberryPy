@@ -26,7 +26,8 @@ if __name__ == '__main__':
 
   myo.connect()
   try:
-    while True: myo.run(1)
+    while True: 
+      myo.run(1)
   except KeyboardInterrupt:
     pass
   finally:
