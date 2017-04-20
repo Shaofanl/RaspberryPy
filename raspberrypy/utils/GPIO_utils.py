@@ -1,6 +1,10 @@
 import RPi.GPIO as GPIO
 from time import sleep
 
+def cleanup_atexit():
+  import atexit
+  atexit.register(GPIO.cleanup)
+
 def cleanup():
   GPIO.cleanup()
 

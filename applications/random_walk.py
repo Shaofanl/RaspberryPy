@@ -3,6 +3,7 @@ from raspberrypy.sensor.HC_SR04 import HC_SR04
 from multiprocessing import Process, Value
 from time import sleep
 from random import random 
+from raspberrypy.utils.GPIO_utils import cleanup_atexit
 
 # constants
 INTERVAL = 1e-3
@@ -40,6 +41,7 @@ proc_dis = Process(target=F_proc_dis, args=(dis_1, dis_2))
 
 
 if __name__ == '__main__':
+  cleanup_atexit()
   proc_dis.start()
 
   while 1:
